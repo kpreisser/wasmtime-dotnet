@@ -15,7 +15,7 @@ namespace ReproWasmtime
 
         public void Start()
         {
-            this.thread = new Thread(this.RunWasmInitializerThread);
+            this.thread = new Thread(this.RunWasmInitializerThread, 8 * 1024 * 1024);
             thread.Start();
         }
 

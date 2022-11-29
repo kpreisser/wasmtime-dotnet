@@ -129,8 +129,7 @@ namespace ReproWasmtime
 
             try {
                 config = new Config()
-                        .WithEpochInterruption(true)
-                        .WithMaximumStackSize(2 * 1024 * 1024);
+                        .WithEpochInterruption(true);
 
                 engine = new WasmEngine(config);
 
