@@ -109,7 +109,7 @@ namespace ReproWasmtime.Api
                     }
                 }
             }
-            catch (Exception?) {
+            catch (Exception) {
                 throw;
             }
             finally {

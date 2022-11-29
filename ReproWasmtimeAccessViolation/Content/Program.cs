@@ -6,6 +6,11 @@ using ReproWasmtime;
 
 var manager = new WasmPluginManager(null);
 manager.Start();
-Console.WriteLine(".NET Version: " + RuntimeInformation.FrameworkDescription);
-Console.WriteLine("WasmPluginManager started. Please wait...");
-Thread.Sleep(-1);
+try {
+    Console.WriteLine(".NET Version: " + RuntimeInformation.FrameworkDescription);
+    Console.WriteLine("WasmPluginManager started. Please wait...");
+    Thread.Sleep(-1);
+}
+finally {
+    manager.Stop();
+}

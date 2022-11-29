@@ -12,7 +12,7 @@ using WasmEngine = Wasmtime.Engine;
 
 namespace ReproWasmtime
 {
-    internal class WasmPluginHost
+    internal class WasmPluginHost : IDisposable
     {
         private readonly object syncRoot = new();
 
@@ -174,14 +174,14 @@ namespace ReproWasmtime
             if (this.State == default) {
                 this.State = 1;
 
-                try {                  
-
+                try {
                     this.wasm = CreateWasmComponents(
                             this.wasmContent.Span,
                             this.wasmContentIsWat);
                 }
                 catch (Exception ex) {
                     this.State = 2;
+                    Console.WriteLine(ex.ToString());
                     return;
                 }
 
@@ -199,6 +199,18 @@ namespace ReproWasmtime
                     this.api.WasmWasiStartOrInitialize?.Invoke();
                     return 0;
                 });
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.wasm != null)
+            {
+                this.wasm.Value.store.Dispose();
+                this.wasm.Value.linker.Dispose();
+                this.wasm.Value.module.Dispose();
+                this.wasm.Value.engine.Dispose();
+                this.wasm.Value.config.Dispose();
             }
         }
     }
